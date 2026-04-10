@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@faker-js/faker": "^10.4.0",
     "@types/node": "^25.5.0",
     "happy-dom": "^20.8.9",
     "ts-node": "^10.9.2",

@@ -4,12 +4,12 @@ import type { UniqueEntityID } from "@/core/entities/unique-entity-id"
 import type { Optional } from "@/core/types/optional"
 import dayjs from "dayjs"
 
-interface QuestionProps {
+export interface QuestionProps {
   title: string
   content: string
   authorId: UniqueEntityID
   slug: Slug
-  bestAnswerId: UniqueEntityID | undefined
+  bestAnswerId?: UniqueEntityID | undefined
   createdAt: Date 
   updatedAt?: Date
 

@@ -1,5 +1,6 @@
 import { title } from "process";
 import type { QuestionsRepository } from "../repositories/questions-repository";
+import type { Question } from "../../enterprise/entities/question";
 
 interface EditQuestionRequestUseCaseRequest {
   authorId: string
@@ -8,7 +9,9 @@ interface EditQuestionRequestUseCaseRequest {
   content: string
 }
 
-interface EditQuestionResponseUseCaseResponse {}
+interface EditQuestionResponseUseCaseResponse {
+  question: Question
+}
 
 export class EditQuestionUseCase {
 
@@ -36,7 +39,9 @@ export class EditQuestionUseCase {
 
     await this.QuestionsRepository.save(question)
 
-    return {}
+    return {
+      question 
+    }
   }
 
 

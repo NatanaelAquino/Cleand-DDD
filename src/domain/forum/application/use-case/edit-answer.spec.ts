@@ -21,16 +21,13 @@ describe('Edit Answer', () => {
 
     await inMemoryAnswersRepository.create(newAnswer)
 
-    await sut.execute({
+    const result = await sut.execute({
       authorId: '1',
       AnswerId: "Answer-1",
       content: 'NOVA EDIT',
     })
 
-    expect(inMemoryAnswersRepository.items[0]).toMatchObject({
-        title: 'nova edit',
-        content: 'NOVA EDIT',
-      })
+    expect(inMemoryAnswersRepository.items[0]).toStrictEqual(result.Answer)
   })
 
   it('Should not be able to Edit a Answer from another user', async () => {

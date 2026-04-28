@@ -3,6 +3,7 @@ import { InMemoryAnswersRepository } from '../../../../../test/repositories/in-m
 import { DeleteAnswerUseCase } from './delete-answer'
 import { makeAnswer } from '../../../../../test/factories/make-answer'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { NotAllowedError } from './erros/not-allowed-error'
 
 let inMemoryAnswerRepository: InMemoryAnswersRepository
 let sut: DeleteAnswerUseCase
@@ -15,15 +16,13 @@ describe('delete answer', () => {
   })
 
   it('delete an answer', async () => {
-    const newAnswer = makeAnswer({
-      authorId: new UniqueEntityID("1"),
-    }, new UniqueEntityID("AnswernewAnswer-1"))
+    const newAnswer = makeAnswer()
 
     await inMemoryAnswerRepository.create(newAnswer)
 
     await sut.execute({
-      authorId: '1',
-      AnswerId: "1",
+      authorId: newAnswer.authorId.toString(),
+      answerId: newAnswer.id.toString()
     })
 
     expect(inMemoryAnswerRepository.items).toHaveLength(0)
@@ -37,13 +36,12 @@ describe('delete answer', () => {
     }, new UniqueEntityID("1"))
 
     await inMemoryAnswerRepository.create(newAnswer)
-
-    expect(() => {
-      return sut.execute({
-        authorId: '3',
-        AnswerId: "1",
-      })
-    }).rejects.toBeInstanceOf(Error)
+    const result = await sut.execute({
+      authorId: "3",
+      answerId: newAnswer.id.toString()
+    })
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(NotAllowedError)
 
   })
 })

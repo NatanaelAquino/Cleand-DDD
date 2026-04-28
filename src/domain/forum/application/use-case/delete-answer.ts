@@ -1,12 +1,14 @@
-<<<<<<< HEAD
+import { left, right, type Either } from "@/core/types/either";
 import type { AnswersRepository } from "../repositories/answers-repository";
+import { ResourceNotFoundError } from "./erros/resource-not-found-error";
+import { NotAllowedError } from "./erros/not-allowed-error";
 
 interface DeleteAnswerRequestUseCaseRequest {
   authorId: string
-  AnswerId: string
+  answerId: string
 }
 
-interface DeleteAnswerResponseUseCaseResponse {}
+type DeleteAnswerResponseUseCaseResponse = Either<ResourceNotFoundError | NotAllowedError, {}>
 
 export class DeleteAnswerUseCase {
 
@@ -14,52 +16,20 @@ export class DeleteAnswerUseCase {
 
   async execute({
     authorId,
-    AnswerId
+    answerId
   }: DeleteAnswerRequestUseCaseRequest): Promise<DeleteAnswerResponseUseCaseResponse> {
-    const Answer = await this.AnswersRepository.findById(AnswerId)
-    if (!Answer) {
-      throw new Error('Answer not found')
+    const answer = await this.AnswersRepository.findById(answerId)
+
+    if (!answer) {
+      return left(new ResourceNotFoundError())
     }
 
-    if (Answer.authorId.toString() !== authorId) {
-      throw new Error('You are not the author of this Answer')
+    if (answer.authorId.toString() !== authorId) {
+      return left(new NotAllowedError())
     }
 
-    await this.AnswersRepository.delete(Answer)
-=======
-import type { QuestionsRepository } from "../repositories/questions-repository";
-
-interface DeleteQuestionRequestUseCaseRequest {
-  authorId: string
-  questionId: string
-}
-
-interface DeleteQuestionResponseUseCaseResponse {}
-
-export class DeleteQuestionUseCase {
-
-  constructor(private QuestionsRepository: QuestionsRepository) { }
-
-  async execute({
-    authorId,
-    questionId
-  }: DeleteQuestionRequestUseCaseRequest): Promise<DeleteQuestionResponseUseCaseResponse> {
-    const question = await this.QuestionsRepository.findById(questionId)
-
-    if (!question) {
-      throw new Error('Question not found')
-    }
-
-    if (question.authorId.toString() !== authorId) {
-      throw new Error('You are not the author of this question')
-    }
-
-    await this.QuestionsRepository.delete(question)
->>>>>>> 453d5ff9b4fbd657cd723705b7e4c8a3c2c1b656
-
-    return {}
+    await this.AnswersRepository.delete(answer)
+    return right({})
   }
-
-
 }
 

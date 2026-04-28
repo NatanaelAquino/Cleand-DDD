@@ -1,3 +1,4 @@
+import { right, type Either } from "@/core/types/either"
 import type { Answer } from "../../enterprise/entities/Answer"
 import type { AnswersRepository } from "../repositories/answers-repository"
 
@@ -5,9 +6,9 @@ interface FetRecentQuestionsAnswerRequest {
   questionId: string
   page: number
 }
-interface FetRecentQuestionsAnserResponse {
+type FetRecentQuestionsAnserResponse = Either<null, {
   answer: Answer[]
-}
+}>
 
 export class FetRecentQuestionsAnserUseCase {
 
@@ -18,9 +19,9 @@ export class FetRecentQuestionsAnserUseCase {
 
     const answer = await this.answerRespository.findMyByQuestionId(questionId ,{page})
 
-    return {
+    return right({
       answer
-    }
+    })
   }
 }
 

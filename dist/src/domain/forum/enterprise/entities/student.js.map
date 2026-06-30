@@ -1,0 +1,1 @@
+{"version":3,"file":"student.js","sourceRoot":"","sources":["../../../../../../src/domain/forum/enterprise/entities/student.ts"],"names":[],"mappings":";;AAAA,6DAA0D;AAQ1D,MAAM,OAAQ,SAAQ,eAAoB;IAEtC,MAAM,CAAC,MAAM,CAAC,KAAmB,EAAE,EAAmB;QACtD,MAAM,QAAQ,GAAG,IAAI,OAAO,CAAC;YAC3B,GAAG,KAAK;SACT,EAAE,EAAE,CAAC,CAAA;QACN,OAAO,QAAQ,CAAA;IACjB,CAAC;CACF;AAED,kBAAe,OAAO,CAAA"}
